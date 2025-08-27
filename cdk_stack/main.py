@@ -2,7 +2,8 @@ from aws_cdk import (
     Stack,
     aws_apigateway,
     aws_lambda,
-    aws_s3 as s3
+    aws_s3 as s3,
+    Duration
 )
 from constructs import Construct
 # CDK Labs library import for bedrock implementation
@@ -55,14 +56,17 @@ class PyRestApiStack(Stack):
             "HRLambda",
             runtime=aws_lambda.Runtime.PYTHON_3_13,
             code=aws_lambda.Code.from_asset("cdk_stack/services"),
-            handler="index.handler",
+            handler="index.lambda_handler",
+            timeout=Duration.seconds(60),
             environment={
                 "KNOWLEDGE_BASE_ID": knowledge_base.knowledge_base_id,
                 "MODEL_ID": claude_model.model_id
             }
         )
 
+        # Grants lambda permissions to retrieve and retrieve+generate the knowledge base
         knowledge_base.grant_query(hr_lambda)
+        # Grants lambda permissions to invoke the claude model in the current region
         claude_model.grant_invoke(hr_lambda)
 
         # Create api gateway and its subroute
@@ -72,5 +76,4 @@ class PyRestApiStack(Stack):
         # Create lambda integration attach to api gateway
         # Add get and post methods to the lambda function
         hr_lambda_integration = aws_apigateway.LambdaIntegration(hr_lambda)
-        hr_resource.add_method("GET", hr_lambda_integration)
         hr_resource.add_method("POST", hr_lambda_integration)

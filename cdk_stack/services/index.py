@@ -33,7 +33,7 @@ def lambda_handler(event, context):
                 'type': 'KNOWLEDGE_BASE',
                 'knowledgeBaseConfiguration': {
                     'knowledgeBaseId': KNOWLEDGE_BASE_ID,
-                    'modelArn': "arn:aws:bedrock:us-west-2::foundation-model/{MODEL_ID}"
+                    'modelArn': f"arn:aws:bedrock:us-west-2::foundation-model/{MODEL_ID}"
                 }
             }
         )
@@ -52,7 +52,6 @@ def lambda_handler(event, context):
                         if 'location' in ref and 's3Location' in ref['location']:
                              s3_loc = ref['location']['s3Location']
                              citations.append(f"Source: s3://{s3_loc['uri']}") 
-
         return {
             'statusCode': 200,
             'headers': {
