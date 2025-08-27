@@ -63,6 +63,7 @@ class PyRestApiStack(Stack):
         )
 
         knowledge_base.grant_query(hr_lambda)
+        claude_model.grant_invoke(hr_lambda)
 
         # Create api gateway and its subroute
         api = aws_apigateway.RestApi(self, "hr-api")
