@@ -1,12 +1,11 @@
 python-dotenv
-jupyterlab
 ipywidgets
 requests
-numpy
-pandas
-scipy
-scikit-learn
-matplotlib
+# numpy
+# pandas
+# scipy
+# scikit-learn
+# matplotlib
 # gensim
 # torch
 transformers
@@ -37,3 +36,8 @@ pydub
 # feedparser
 # protobuf==3.20.2
 # wandb
+aws-cdk-lib==2.212.0
+aws-cdk.aws-appsync-alpha==2.59.0a0
+pylance
+cdklabs.generative-ai-cdk-constructs
+boto3
