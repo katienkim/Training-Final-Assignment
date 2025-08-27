@@ -13,3 +13,19 @@ llms.bak/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# CDK assets (auto-generated Lambda / S3 packages)
+cdk.out/
+
+# Node modules (if using JS/TS CDK)
+node_modules/
+
+# Temporary CDK staging assets
+*.zip
+
+*.log

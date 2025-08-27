@@ -23,10 +23,10 @@ class PyRestApiStack(Stack):
         )
 
         # Create s3 vector bucket that stores chunks of embedded HR document data
-        s3_vector = s3.Bucket(
-            self,
-            "HRVectorBucket"
-        )
+        # s3_vector = s3.Bucket(
+        #     self,
+        #     "HRVectorBucket"
+        # )
 
         # Create knowledge base using Bedrock
         # Use Bedrock Titan as the embedding model
@@ -34,8 +34,7 @@ class PyRestApiStack(Stack):
         knowledge_base = bedrock.VectorKnowledgeBase(
             self,
             "HRKnowledgeBase",
-            embeddings_model=bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
-            vector_store=s3_vector
+            embeddings_model=bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024
         )
 
         # Attach existing s3 document bucket as data source for knowledge base
@@ -55,7 +54,7 @@ class PyRestApiStack(Stack):
             self,
             "HRLambda",
             runtime=aws_lambda.Runtime.PYTHON_3_13,
-            code=aws_lambda.Code.from_asset("services"),
+            code=aws_lambda.Code.from_asset("cdk_stack/services"),
             handler="index.handler",
             environment={
                 "KNOWLEDGE_BASE_ID": knowledge_base.knowledge_base_id,
@@ -63,8 +62,7 @@ class PyRestApiStack(Stack):
             }
         )
 
-        knowledge_base.grant_read(hr_lambda)
-        claude_model.grant_invoke(hr_lambda)
+        knowledge_base.grant_query(hr_lambda)
 
         # Create api gateway and its subroute
         api = aws_apigateway.RestApi(self, "hr-api")
