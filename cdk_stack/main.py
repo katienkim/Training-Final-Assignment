@@ -48,7 +48,7 @@ class PyRestApiStack(Stack):
             )
         )
 
-        claude_model = bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1
+        claude_model = bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0
         
         # Create lambda function 
         hr_lambda = aws_lambda.Function(

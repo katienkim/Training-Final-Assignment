@@ -3,6 +3,7 @@ import boto3
 import os
 
 bedrock_agent_runtime = boto3.client('bedrock-agent-runtime')
+bedrock_runtime = boto3.client('bedrock-runtime')
 
 def lambda_handler(event, context):
     # Log the incoming event for debugging
@@ -25,33 +26,74 @@ def lambda_handler(event, context):
             }
 
         print(f"Received query: {user_query}")
-        response = bedrock_agent_runtime.retrieve_and_generate(
-            input={
+        
+        # --- STEP 1: RETRIEVE context from the Knowledge Base ---
+        print("Retrieving context from Knowledge Base...")
+        retrieval_response = bedrock_agent_runtime.retrieve(
+            knowledgeBaseId=KNOWLEDGE_BASE_ID,
+            retrievalQuery={
                 'text': user_query
             },
-            retrieveAndGenerateConfiguration={
-                'type': 'KNOWLEDGE_BASE',
-                'knowledgeBaseConfiguration': {
-                    'knowledgeBaseId': KNOWLEDGE_BASE_ID,
-                    'modelArn': f"arn:aws:bedrock:us-west-2::foundation-model/{MODEL_ID}"
+            retrievalConfiguration={
+                'vectorSearchConfiguration': {
+                    'numberOfResults': 5  # Retrieve top 5 relevant chunks
                 }
             }
         )
-
-        # Extract the generated response text and source citations
-        answer = response['output']['text']
-        citations = []
         
-        if 'citations' in response:
-            for citation in response['citations']:
-                if 'retrievedReferences' in citation:
-                    for ref in citation['retrievedReferences']:
-                        if 'content' in ref and 'text' in ref['content']:
-                            citations.append(ref['content']['text'])
-                       
-                        if 'location' in ref and 's3Location' in ref['location']:
-                             s3_loc = ref['location']['s3Location']
-                             citations.append(f"Source: s3://{s3_loc['uri']}") 
+        retrieval_results = retrieval_response.get('retrievalResults', [])
+        
+        # Extract context and source references from the retrieval results
+        context = ""
+        source_references = []
+        for result in retrieval_results:
+            context += result['content']['text'] + "\n"
+            source_references.append(result['location']['s3Location']['uri'])
+
+        print(f"Retrieved context: {context[:500]}...") # Log first 500 chars of context
+        
+        # --- STEP 2: GENERATE an answer using the retrieved context ---
+        print("Generating answer with Claude 3.7 Sonnet...")
+
+        # Create the prompt for the language model
+        prompt = f"""
+        Human: You are an expert HR assistant. Using the following context, answer the user's question.
+        Provide a direct answer and cite the sources you used. Do not use information outside the context.
+
+        <context>
+        {context}
+        </context>
+
+        <question>
+        {user_query}
+        </question>
+
+        Assistant:
+        """
+        
+        # Body for the Claude 3.5 Sonnet model
+        request_body = {
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": 2048,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": [{"type": "text", "text": prompt}]
+                }
+            ]
+        }
+        
+        # Invoke the model
+        generation_response = bedrock_runtime.invoke_model(
+            body=json.dumps(request_body),
+            modelId=MODEL_ID,
+            contentType='application/json',
+            accept='application/json'
+        )
+        
+        response_body = json.loads(generation_response['body'].read())
+        answer = response_body['content'][0]['text']
+
         return {
             'statusCode': 200,
             'headers': {
@@ -59,9 +101,8 @@ def lambda_handler(event, context):
                 'Access-Control-Allow-Origin': '*' 
             },
             'body': json.dumps({
-                'query': user_query,
                 'answer': answer,
-                'citations': citations
+                'sources': list(set(source_references)) # Return unique sources
             })
         }
 
@@ -69,9 +110,6 @@ def lambda_handler(event, context):
         print(f"Error: {e}")
         return {
             'statusCode': 500,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
+            'headers': { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
             'body': json.dumps({'error': str(e)})
         }
