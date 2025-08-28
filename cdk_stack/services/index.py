@@ -36,7 +36,7 @@ def lambda_handler(event, context):
             },
             retrievalConfiguration={
                 'vectorSearchConfiguration': {
-                    'numberOfResults': 5  # Retrieve top 5 relevant chunks
+                    'numberOfResults': 10  # Retrieve top 10 relevant chunks
                 }
             }
         )

@@ -41,10 +41,9 @@ class PyRestApiStack(Stack):
         # Attach existing s3 document bucket as data source for knowledge base
         knowledge_base.add_s3_data_source(
             bucket=s3_bucket,
-            chunking_strategy= bedrock.ChunkingStrategy.semantic(
-                buffer_size=0,
-                breakpoint_percentile_threshold=95,
-                max_tokens=300
+            chunking_strategy= bedrock.ChunkingStrategy.fixed_size(
+                max_tokens=250,
+                overlap_percentage=20
             )
         )
 
