@@ -4,7 +4,7 @@ import json
 
 API_ENDPOINT_URL = os.environ.get("API_ENDPOINT_URL", "https://c99i1dn479.execute-api.us-west-2.amazonaws.com/prod/hr")
 
-prompts = ["What is the policy on advance pay?",
+prompts = ["What is the policy on advance pay for wci inc?",
            "What is the policy on sick leave?",
            "Do I get to retier?"
            ]
