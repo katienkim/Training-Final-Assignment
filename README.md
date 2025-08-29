@@ -14,6 +14,10 @@ The architecture leverages:
 
 This entire infrasturcture is defined and provisioned using the `generative-ai-cdk-constructs` library, which simplifies the process of building GenAI applications on AWS.
 
+**Architecture**:
+
+![Architecture Diagram](Final-Assignment-Diagram.drawio.png)
+
 ## Prerequisites
 Before you begin, ensure you have the following installed and configurated:
 1. **AWS Account and CLI**: An active AWS account and the AWS CLI installed and configured with your credentials.
