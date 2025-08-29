@@ -81,10 +81,20 @@ You can use any API client like  `curl` or Postman to send a `POST` request.
 
 Or you can use the built in test file `test/test_deployment.py`.
 
-Just run: `python test/test_deployment.py` to see the HR assistant produce three responses to three queries inputted into the RAG pipeline.
+Just run: 
+```
+python test/test_deployment.py
+```
+to see the HR assistant produce three responses to three queries inputted into the RAG pipeline.
 
 In addition, there are two UIs available to deploy and use as an interactive way to use the HR assistant.
 
-For the Gradio web app interface, imply run: `python ui/gradio_ui.py`
+For the Gradio web app interface, imply run:
+```
+python ui/gradio_ui.py
+```
 
-For the Streamlit web app interface, run: `streamlit run ui/streamlit_ui.py`
+For the Streamlit web app interface, run: 
+```
+streamlit run ui/streamlit_ui.py
+```
