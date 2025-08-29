@@ -5,9 +5,9 @@ import json
 API_ENDPOINT_URL = os.environ.get("API_ENDPOINT_URL", "https://c99i1dn479.execute-api.us-west-2.amazonaws.com/prod/hr")
 
 # Prompts for the LLM through the RAG pipeline
-prompts = ["What is the policy on advance pay for wci inc?",
-           "What is the policy on sick leave?",
-           "Do I get to retier?"
+prompts = ["What is the vacation policy?",
+            "How do I request time off?",
+            "What are the office hors?"
            ]
 
 def test_rag():
