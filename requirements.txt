@@ -1,44 +1,9 @@
-python-dotenv
-ipywidgets
+boto3>=1.34.131
 requests
-# numpy
-# pandas
-# scipy
-# scikit-learn
-# matplotlib
-# gensim
-# torch
-transformers
-# tqdm
-# openai
-# gradio
-langchain
-langchain-core
-langchain-text-splitters
-langchain-openai
-langchain-chroma
-langchain-community
-datasets==3.6.0
-matplotlib
-# google-generativeai
-anthropic
-# chromadb
-plotly
-jupyter-dash
-# beautifulsoup4
-pydub
-# modal
-# ollama
-# psutil
-# setuptools
-# speedtest-cli
-# sentence_transformers
-# feedparser
-# protobuf==3.20.2
-# wandb
 aws-cdk-lib==2.212.0
-aws-cdk.aws-appsync-alpha==2.59.0a0
+constructs>=10.0.0,<11.0.0
 pylance
 cdklabs.generative-ai-cdk-constructs
-boto3
 gradio
+anthropic>=0.42.0
+streamlit

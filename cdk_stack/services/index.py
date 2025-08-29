@@ -5,6 +5,9 @@ import os
 bedrock_agent_runtime = boto3.client('bedrock-agent-runtime')
 bedrock_runtime = boto3.client('bedrock-runtime')
 
+### Create Lambda handler method:
+# event (param): data payload that triggers Lambda function
+# context (param): runtime information
 def lambda_handler(event, context):
     # Log the incoming event for debugging
     print(f"Received event: {json.dumps(event)}")
@@ -13,12 +16,14 @@ def lambda_handler(event, context):
         KNOWLEDGE_BASE_ID = os.environ.get('KNOWLEDGE_BASE_ID')
         MODEL_ID = os.environ.get('MODEL_ID')
 
+        # Check for existence of KNOWLEDGE_BASE_ID and MODEL_ID
         if not KNOWLEDGE_BASE_ID or not MODEL_ID:
             raise ValueError("Missing KNOWLEDGE_BASE_ID or MODEL_ID environment variables.")
   
         body = json.loads(event['body'])
         user_query = body.get('query', '')
 
+        # Check for query input in the data payload
         if not user_query:
             return {
                 'statusCode': 400,
@@ -36,7 +41,7 @@ def lambda_handler(event, context):
             },
             retrievalConfiguration={
                 'vectorSearchConfiguration': {
-                    'numberOfResults': 10  # Retrieve top 10 relevant chunks
+                    'numberOfResults': 5  # Retrieve top 5 relevant chunks
                 }
             }
         )
@@ -53,7 +58,7 @@ def lambda_handler(event, context):
         print(f"Retrieved context: {context[:500]}...") # Log first 500 chars of context
         
         # --- STEP 2: GENERATE an answer using the retrieved context ---
-        print("Generating answer with Claude 3.7 Sonnet...")
+        print("Generating answer with Claude 4...")
 
         # Create the prompt for the language model
         prompt = f"""
@@ -71,7 +76,7 @@ def lambda_handler(event, context):
         Assistant:
         """
         
-        # Body for the Claude 3.5 Sonnet model
+        # Body for the Claude 4 Sonnet model (same for Claude 3 and 3.5)
         request_body = {
             "anthropic_version": "bedrock-2023-05-31",
             "max_tokens": 2048,

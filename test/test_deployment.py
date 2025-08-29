@@ -4,12 +4,14 @@ import json
 
 API_ENDPOINT_URL = os.environ.get("API_ENDPOINT_URL", "https://c99i1dn479.execute-api.us-west-2.amazonaws.com/prod/hr")
 
+# Prompts for the LLM through the RAG pipeline
 prompts = ["What is the policy on advance pay for wci inc?",
            "What is the policy on sick leave?",
            "Do I get to retier?"
            ]
 
 def test_rag():
+    # Test to see if API_ENDPOINT_URL was defined
     if "YOUR_API_ENDPOINT_URL_HERE" in API_ENDPOINT_URL:
         print("ERROR: Please set the API_ENDPOINT_URL in this script.")
         return
@@ -17,7 +19,9 @@ def test_rag():
     headers = {
         'Content-Type': 'application/json'
     }
-    messages = []
+    # For each prompt in prompt list, set query as the prompt
+    # Call for the API Gateway endpoint and retrieve a response
+    # Print the response or throw an exception for any error
     for prompt in prompts:
         payload = {
             'query': prompt
