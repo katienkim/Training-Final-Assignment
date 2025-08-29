@@ -85,6 +85,6 @@ Just run: `python test/test_deployment.py` to see the HR assistant produce three
 
 In addition, there are two UIs available to deploy and use as an interactive way to use the HR assistant.
 
-Simply run: `python ui/gradio_ui.py` to run the Gradio web app interface.
+For the Gradio web app interface, imply run: `python ui/gradio_ui.py`
 
-And run: `streamlit run ui/streamlit_ui.py` to run the Streamlit web app interface.
+For the Streamlit web app interface, run: `streamlit run ui/streamlit_ui.py`
