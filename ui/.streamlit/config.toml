@@ -1,0 +1,17 @@
+[server]
+enableStaticServing = true
+
+[theme]
+### Katie's Version
+# primaryColor = "#ffd8e7ff"
+# backgroundColor = "#ffa3c8ff"
+# secondaryBackgroundColor = "#de7da3ff"
+# textColor = "#ffffffff"
+# font = "noto-sans"
+
+# ### Regular
+font="noto-sans"
+
+[[theme.fontFaces]]
+family = "noto-sans"
+url = "app/static/NotoSans-Light.otf" 
