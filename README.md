@@ -25,7 +25,9 @@ Before you begin, ensure you have the following installed and configurated:
 3. **Node.js and AWS CDK**: The AWS CDK Toolkit requires Node.js.
     - Install Node.js.
     - Install the AWS CDK Toolkit globally by running:
-    `npm install -g aws-cdk`
+        ```
+        npm install -g aws-cdk
+        ```
 4. **Docker Desktop**: The Docker Desktop **MUST** be running on your local machine before you proceed with the deployment. The `generative-ai-cdk-constructs` library uses Docker to build assets required for the Bedrock Knowledge Base.
 
 ## Deployment Steps
