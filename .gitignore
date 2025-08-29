@@ -19,11 +19,10 @@ build/
 dist/
 *.egg-info/
 
-# CDK assets (auto-generated Lambda / S3 packages)
+# CDK context and staging files
+cdk.context.json
+.cdk.staging/
 cdk.out/
-
-# Node modules (if using JS/TS CDK)
-node_modules/
 
 # Temporary CDK staging assets
 *.zip
