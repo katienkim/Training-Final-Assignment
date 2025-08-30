@@ -16,7 +16,7 @@ This entire infrasturcture is defined and provisioned using the `generative-ai-c
 
 **Architecture**:
 
-![Architecture Diagram](Final-Assignment-Diagram.drawio.png)
+<img width="880" height="358" alt="AWS-Architecture drawio" src="https://github.com/user-attachments/assets/84dc5ca9-1394-4224-8b5f-a21cb06c0ec4" />
 
 ## Prerequisites
 Before you begin, ensure you have the following installed and configurated:
