@@ -25,7 +25,9 @@ Before you begin, ensure you have the following installed and configurated:
 3. **Node.js and AWS CDK**: The AWS CDK Toolkit requires Node.js.
     - Install Node.js.
     - Install the AWS CDK Toolkit globally by running:
-    `npm install -g aws-cdk`
+        ```
+        npm install -g aws-cdk
+        ```
 4. **Docker Desktop**: The Docker Desktop **MUST** be running on your local machine before you proceed with the deployment. The `generative-ai-cdk-constructs` library uses Docker to build assets required for the Bedrock Knowledge Base.
 
 ## Deployment Steps
@@ -81,10 +83,20 @@ You can use any API client like  `curl` or Postman to send a `POST` request.
 
 Or you can use the built in test file `test/test_deployment.py`.
 
-Just run: `python test/test_deployment.py` to see the HR assistant produce three responses to three queries inputted into the RAG pipeline.
+Just run: 
+```
+python test/test_deployment.py
+```
+to see the HR assistant produce three responses to three queries inputted into the RAG pipeline.
 
 In addition, there are two UIs available to deploy and use as an interactive way to use the HR assistant.
 
-Simply run: `python ui/gradio_ui.py` to run the Gradio web app interface.
+For the Gradio web app interface, imply run:
+```
+python ui/gradio_ui.py
+```
 
-And run: `streamlit run ui/streamlit_ui.py` to run the Streamlit web app interface.
+For the Streamlit web app interface, run: 
+```
+streamlit run ui/streamlit_ui.py
+```
