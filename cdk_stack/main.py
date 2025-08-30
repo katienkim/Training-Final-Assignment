@@ -59,7 +59,7 @@ class PyRestApiStack(Stack):
             self,
             "HRLambda",
             runtime=aws_lambda.Runtime.PYTHON_3_12,
-            code=aws_lambda.Code.from_asset("cdk_stack/services"),
+            code=aws_lambda.Code.from_asset("cdk_stack/services"), # sets the lambda handler code
             handler="index.lambda_handler",
             timeout=Duration.seconds(60),
             # initialize environment variables for knowledge base id and llm model id
